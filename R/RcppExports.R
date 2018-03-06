@@ -2,7 +2,7 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 rcpp_hello <- function() {
-    .Call(`_VerifyTvdNr_rcpp_hello`)
+    .Call('_VerifyTvdNr_rcpp_hello', PACKAGE = 'VerifyTvdNr')
 }
 
 #' Testing Verification function of TVD-Numbers
@@ -13,8 +13,7 @@ rcpp_hello <- function() {
 #' valid.
 #'
 #' @param psinputFile name of an input file name
-#' @export verifyTvdNrMain
 verifyTvdNrMain <- function(psinputFile) {
-    invisible(.Call(`_VerifyTvdNr_verifyTvdNrMain`, psinputFile))
+    invisible(.Call('_VerifyTvdNr_verifyTvdNrMain', PACKAGE = 'VerifyTvdNr', psinputFile))
 }
 

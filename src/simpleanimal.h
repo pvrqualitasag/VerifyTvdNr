@@ -1,20 +1,18 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-using namespace std;
-
 class SimpleAnimal {
 public:
   // constructor for simpleanimal object
-  SimpleAnimal(string psindTvdNr);
+  SimpleAnimal(std::string psindTvdNr);
   // verify Tvd-Number
-  string getVerifiedTvdNr(string psindTvdNr);
+  std::string getVerifiedTvdNr(std::string psindTvdNr);
   // output function
   void to_out(void);
   // write object content to logd
   void to_logd(void);
   // getter for TvdNr
-  string getIndTvdNr(void);
+  std::string getIndTvdNr(void);
 private:
-  string indTvdNr;    // TVD-Number of animal
+  std::string indTvdNr;    // TVD-Number of animal
 };

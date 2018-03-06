@@ -3,7 +3,7 @@
 #include <chrono>
 #include <ctime>
 #include <Rcpp.h>
-#include "simpleanimal.h"
+#include "simpleanimalmap.h"
 #include <plog/Log.h>
 
 using namespace Rcpp;
@@ -16,7 +16,6 @@ using namespace Rcpp;
 //' valid.
 //'
 //' @param psinputFile name of an input file name
-//' @export verifyTvdNrMain
 // [[Rcpp::export]]
 void verifyTvdNrMain(std::string psinputFile){
   //Time tracking
@@ -30,12 +29,11 @@ void verifyTvdNrMain(std::string psinputFile){
   // logfile init
   plog::init(plog::debug, "verifyTvdNrMain.log");
   LOGD << " *** Starting verifyTvdNrMain ***";
+  LOGD << " *** Input file: " << psinputFile;
 
-  // Try to construct a simple animal
-  SimpleAnimal sa = SimpleAnimal::SimpleAnimal("CH120003234567");
-
-  // Writing TVD-Nr to logd
-  sa.to_logd();
+  // create object of SimpleAnimalMap and read input from psinputFile
+  SimpleAnimalMap sam;
+  sam.readTvdNrInput(psinputFile);
 
   LOGD << " *** End of verifyTvdNrMain ***";
   //Time tracking

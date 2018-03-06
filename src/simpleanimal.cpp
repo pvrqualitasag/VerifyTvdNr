@@ -1,9 +1,12 @@
+#include "constants.h"
 #include "simpleanimal.h"
+#include <cstring>
+#include <iostream>
 #include <plog/Log.h>
 
 
 //' Implementation of constructor
-SimpleAnimal::SimpleAnimal(string psindTvdNr){
+SimpleAnimal::SimpleAnimal(std::string psindTvdNr){
   LOGD << " *** Constructor called with psindTvdNr: " << psindTvdNr;
   // take argument and run it through verification
   indTvdNr = getVerifiedTvdNr(psindTvdNr);
@@ -12,13 +15,34 @@ SimpleAnimal::SimpleAnimal(string psindTvdNr){
 
 
 //' Verification function of Tvd-Nr
-string SimpleAnimal::getVerifiedTvdNr(string psindTvdNr){
+std::string SimpleAnimal::getVerifiedTvdNr(std::string psindTvdNr){
   LOGD << " *** TVD-Nr verification called with psindTvdNr: " << psindTvdNr;
-  // check whether first two positions of psindTvdNr are letters
-  string countryCode = psindTvdNr.substr(2);
-  LOGD << " *** Country code: " << countryCode;
+  // check for length of TVD-Nr
+  if (psindTvdNr.size() != CONSTANTS::TVD_NR_LENGTH){
+    LOGD << " *** Wrong length of TVD-Nr: " << psindTvdNr << " length found: " << psindTvdNr.size() << " should be: " << CONSTANTS::TVD_NR_LENGTH;
+    return(CONSTANTS::STRING_NA);
+  }
 
-  return(NULL);
+  // check whether first two positions of psindTvdNr are letters
+  std::string countryCode = psindTvdNr.substr(0,CONSTANTS::COUNTRY_CODE_LENGTH);
+  LOGD << " *** Country code: " << countryCode;
+  // countryCode should not be numeric
+  if (std::strspn(countryCode.c_str(), CONSTANTS::LETTERS) != CONSTANTS::COUNTRY_CODE_LENGTH){
+    LOGD << " *** Country code is not alphabetic: " << countryCode;
+    return(CONSTANTS::STRING_NA);
+  }
+
+  // check whether second parts is only numeric
+  std::string aniMM = psindTvdNr.substr(CONSTANTS::COUNTRY_CODE_LENGTH);
+  LOGD << " *** Numeric part of TVD-Nr: " << aniMM;
+  // aniMM must be all numbers
+  if (std::strspn(aniMM.c_str(), CONSTANTS::NUMBERS) != (CONSTANTS::TVD_NR_LENGTH - CONSTANTS::COUNTRY_CODE_LENGTH)){
+    LOGD << " *** Second part of TVD-nr is not numeric: " << aniMM;
+    return(CONSTANTS::STRING_NA);
+  }
+
+  LOGD << " *** All checks passed for TVD-Nr: " << psindTvdNr;
+  return(psindTvdNr);
 }
 
 //' Writing TVD-Nr to cout
@@ -32,6 +56,6 @@ void SimpleAnimal::to_logd(void){
 }
 
 //' Getter for animals TVD-Nr
-string SimpleAnimal::getIndTvdNr(void){
+std::string SimpleAnimal::getIndTvdNr(void){
   return(indTvdNr);
 }
