@@ -28,7 +28,7 @@ std::string SimpleAnimal::getVerifiedTvdNr(std::string psindTvdNr){
   LOGD << " *** Country code: " << countryCode;
   // countryCode should not be numeric
   if (std::strspn(countryCode.c_str(), CONSTANTS::LETTERS) != CONSTANTS::COUNTRY_CODE_LENGTH){
-    LOGD << " *** Country code is not alphabetic: " << countryCode;
+    LOGD << " *** Country code does not consist of only alphabetic characters: " << countryCode;
     return(CONSTANTS::STRING_NA);
   }
 
